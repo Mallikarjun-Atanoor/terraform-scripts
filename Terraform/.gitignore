@@ -1,0 +1,38 @@
+############################
+# Terraform (global ignore)
+############################
+.terraform/
+**/.terraform/
+
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+*.pem
+*.key
+
+############################
+# Terraform lock file (optional)
+############################
+.terraform.lock.hcl
+
+############################
+# OS / Editor
+############################
+.vscode/
+.idea/
+.DS_Store
+
+############################
+# Ignore other learning folders
+############################
+12-inbuilt_functions/
+aws-s3_web_project/
+meta_arguments/
+Resources/
+State File/
+terraform_functions/
+
+############################
+# IMPORTANT:
+# Do NOT ignore Vpc_Peering
+############################
