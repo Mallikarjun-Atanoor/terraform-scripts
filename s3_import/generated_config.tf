@@ -3,7 +3,7 @@
 
 # __generated__ by Terraform from "mallikarjun-images-archival"
 resource "aws_s3_bucket" "imported_bucket_1" {
-  bucket              = "mallikarjun-images-archival"
+  bucket              = "bucket-images-archival"
   bucket_prefix       = null
   force_destroy       = false
   object_lock_enabled = false
