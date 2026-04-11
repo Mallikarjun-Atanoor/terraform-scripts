@@ -1,0 +1,32 @@
+SELECT
+  order_id,
+  customer_name,
+
+  -- Clean amount (remove empty, invalid → NULL → filtered)
+  TRY_CAST(NULLIF(TRIM(amount), '') AS INTEGER) AS amount,
+
+  -- Standardize status
+  CASE
+    WHEN lower(TRIM(status)) = 'completed' THEN 'COMPLETED'
+    WHEN lower(TRIM(status)) = 'pending' THEN 'PENDING'
+    WHEN lower(TRIM(status)) = 'cancelled' THEN 'CANCELLED'
+    ELSE 'UNKNOWN'
+  END AS status,
+
+  -- Clean date (handles multiple formats)
+  COALESCE(
+    TRY_CAST(order_date AS DATE),
+    TRY_CAST(date_parse(order_date, '%d-%m-%Y') AS DATE),
+    TRY_CAST(date_parse(order_date, '%Y/%m/%d') AS DATE)
+  ) AS order_date
+
+FROM datalake_db.orders_raw
+
+-- Remove bad records
+WHERE
+  TRY_CAST(NULLIF(TRIM(amount), '') AS INTEGER) IS NOT NULL
+  AND COALESCE(
+        TRY_CAST(order_date AS DATE),
+        TRY_CAST(date_parse(order_date, '%d-%m-%Y') AS DATE),
+        TRY_CAST(date_parse(order_date, '%Y/%m/%d') AS DATE)
+      ) IS NOT NULL;
